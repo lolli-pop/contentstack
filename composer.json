@@ -1,6 +1,6 @@
 {
     "name": "elliemae/contentstack",
-    "description": "Contentstack API",
+    "description": "ContentStack API",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,13 +10,19 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
     "autoload": {
         "psr-4": {
-            "Elliemae\\Contentstack\\": "src/"
+            "Elliemae\\ContentStack\\": "src/"
         }
     },
-    "require-dev": {
-        "guzzlehttp/guzzle": "^6.3"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Elliemae\\ContentStack\\ContentStackServiceProvider"
+            ]
+        }
     }
 }
