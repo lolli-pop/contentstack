@@ -1,0 +1,19 @@
+{
+    "name": "elliemae/contentstack",
+    "description": "Contentstack API",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Yang",
+            "email": "kevin.yang@elliemae.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Elliemae\\Contentstack\\": "src/"
+        }
+    }
+}
