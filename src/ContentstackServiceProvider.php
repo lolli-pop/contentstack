@@ -4,7 +4,7 @@ namespace Elliemae\Contentstack;
 
 use Illuminate\Support\ServiceProvider;
 
-class ContentstackServiceProvider extends ServiceProvider
+class ContentStackServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{

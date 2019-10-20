@@ -15,5 +15,8 @@
         "psr-4": {
             "Elliemae\\Contentstack\\": "src/"
         }
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^6.3"
     }
 }
