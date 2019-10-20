@@ -8,11 +8,11 @@ class ContentStackServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{
-		dd('boot');
+		//
 	}
 
 	public function register()
 	{
-		dd('register');
+		//
 	}
 }

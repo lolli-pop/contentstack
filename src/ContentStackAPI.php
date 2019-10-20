@@ -9,6 +9,7 @@ class ContentStackAPI
 	private $csurl;
 	private $csparam;
 	private $query_str;
+	private $client;
 
 	public function __construct($content_type, $params=[], $query_str='')
 	{
@@ -25,52 +26,44 @@ class ContentStackAPI
         $this->csparam += $params;
 
         $this->query_str = $query_str==''?'':'&query='.$query_str;
+
+        $this->client = new \GuzzleHttp\Client(['http_errors'=>false]);
+	}
+
+	private function get_url()
+	{
+		return $this->csurl.http_build_query($this->csparam).$this->query_str;
 	}
 
 	public function fetch()
 	{
-		$client = new \GuzzleHttp\Client;
+		$response = $this->client->request('GET', $this->get_url());
+		$result = json_decode($response->getBody());
 
-		$url = $this->csurl.http_build_query($this->csparam).$this->query_str;
+		if($response->getReasonPhrase() != 'OK')
+		{
+			abort(400, 'ContentStack '.$response->getReasonPhrase().' - Error code: '.$result->error_code.', '.$result->error_message);
+		}
 
-		// dd($url);
-
-		$response = $client->request('GET', $this->csurl.http_build_query($this->csparam).$this->query_str);
-
-		// dump(json_decode($response->getBody());
-		// dd($response);
-
-		return json_decode($response->getBody());
+		return $result;
 	}
 
 	public function fetchAll()
 	{
 		unset($this->csparam['limit']);
-		unset($this->csparam['skip']);
 
 		$loop = 0;
 		$results = [];
-		$client = new \GuzzleHttp\Client(['http_errors'=>false]);
 
 		do {
 			$this->csparam['skip'] = $loop*100;
 
-			$url = $this->csurl.http_build_query($this->csparam).$this->query_str;
-
-			$response = $client->request('GET', $url);
-			$result = json_decode($response->getBody());
-
-			if($response->getReasonPhrase() != 'OK')
-			{
-				abort(500, $response->getReasonPhrase().' - Error code: '.$result->error_code.', '.$result->error_message);
-			}
+			$result = $this->fetch();
 
 			$results = array_merge($results, $result->entries);
 
 			$count = (int)ceil($result->count/100);
 		} while(++$loop < $count);
-
-		$response->entries = $results;
 
 		return (object)[
 			'entries' => $results,
