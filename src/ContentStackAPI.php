@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ContentStackAPI
 {
-	// lets use http :)
+	// let's use http :)
 	private $csurl;
 	private $csparam;
 	private $query_str;
